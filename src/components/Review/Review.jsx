@@ -1,6 +1,11 @@
 import React from "react";
 
-export const Review = ({ user, text, rating }) => {
+export const Review = ({ review }) => {
+  if (!review) {
+    return null;
+  }
+
+  const { user, text, rating } = review;
   return (
     <div>
       <div>{user}</div>
