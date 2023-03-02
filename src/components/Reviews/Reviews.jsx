@@ -1,4 +1,5 @@
 import React from "react";
+import { NewReviewForm } from "../NewReviewForm/NewReviewForm";
 import { Review } from "../Review/Review";
 
 export const Reviews = ({ reviews }) => {
@@ -15,6 +16,7 @@ export const Reviews = ({ reviews }) => {
             )
         )}
       </ul>
+      <NewReviewForm />
     </div>
   );
 };
