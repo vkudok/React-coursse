@@ -11,6 +11,8 @@ export const loadDishesIfNotExist = (restaurantId) => (dispatch, getState) => {
 
   const restaurantDishIds = selectRestaurantMenuById(state, { restaurantId });
   const dishIds = selectDishIds(state);
+  console.log("restaurantDishIds", restaurantDishIds);
+  console.log("dishIds", dishIds);
 
   if (restaurantDishIds.every((id) => dishIds.includes(id))) {
     return;
@@ -18,7 +20,7 @@ export const loadDishesIfNotExist = (restaurantId) => (dispatch, getState) => {
 
   dispatch(startLoadDishes());
 
-  fetch(`http://localhost:3001/api/products?id=${restaurantId}`)
+  fetch(`http://localhost:3001/api/products?restaurantId=${restaurantId}`)
     .then((response) => response.json())
     .then((dishes) => dispatch(finishLoadingDishes(dishes)))
     .catch(() => dispatch(failLoadingDishes()));

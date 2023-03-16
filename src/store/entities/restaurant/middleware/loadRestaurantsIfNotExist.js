@@ -1,13 +1,8 @@
-import {
-  failLoadingRestaurants,
-  finishLoadingRestaurants,
-  RESTAURANT_ACTIONS,
-  startLoadRestaurants,
-} from "../actions";
+import { restaurantActions } from "..";
 import { selectRestaurantIds } from "../selectors";
 
 export const loadRestaurantIfNotExist = (store) => (next) => (action) => {
-  if (action?.type !== RESTAURANT_ACTIONS.load) {
+  if (action?.type !== restaurantActions.loadRestaurantsAction.type) {
     return next(action);
   }
 
@@ -17,11 +12,11 @@ export const loadRestaurantIfNotExist = (store) => (next) => (action) => {
     return;
   }
 
-  store.dispatch(startLoadRestaurants());
+  store.dispatch(restaurantActions.startLoading());
   fetch("http://localhost:3001/api/restaurants/")
     .then((response) => response.json())
     .then((restaurants) =>
-      store.dispatch(finishLoadingRestaurants(restaurants))
+      store.dispatch(restaurantActions.finishLoading(restaurants))
     )
-    .catch(() => store.dispatch(failLoadingRestaurants()));
+    .catch(() => store.dispatch(restaurantActions.failLoading()));
 };

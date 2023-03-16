@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Cart } from "../../components/Cart/Cart";
 import { Restaurant } from "../../components/Restaurant/Restaurant";
 import { RestaurantTabs } from "../../containers/RestaurantTabs/RestaurantTabs";
-import { loadRestaurants } from "../../store/entities/restaurant/actions";
+import { restaurantActions } from "../../store/entities/restaurant";
 import {
   selectIsRestaurantLoaded,
   selectIsRestaurantLoading,
@@ -22,7 +22,7 @@ export const RestaurantPage = () => {
   const isLoaded = useSelector(selectIsRestaurantLoaded);
 
   useEffect(() => {
-    dispatch(loadRestaurants());
+    dispatch(restaurantActions.loadRestaurantsAction());
   }, []);
 
   useEffect(() => {
