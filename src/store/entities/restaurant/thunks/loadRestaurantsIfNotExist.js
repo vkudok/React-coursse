@@ -1,18 +1,18 @@
-import { restaurantSlice } from "..";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { REQUEST_STATUSES } from "../../../../constants/statuses";
 import { selectRestaurantIds } from "../selectors";
 
-export const loadRestaurantIfNotExist = () => (dispatch, getState) => {
-  const restaurantIds = selectRestaurantIds(getState());
+export const loadRestaurantIfNotExist = createAsyncThunk(
+  "restaurant",
+  async (_, { getState, rejectWithValue }) => {
+    const restaurantIds = selectRestaurantIds(getState());
 
-  if (restaurantIds.length) {
-    return;
+    if (restaurantIds.length) {
+      return rejectWithValue(REQUEST_STATUSES.earlyLoaded);
+    }
+
+    const response = await fetch("http://localhost:3001/api/restaurants/");
+
+    return await response.json();
   }
-
-  dispatch(restaurantSlice.actions.startLoading());
-  fetch("http://localhost:3001/api/restaurants/")
-    .then((response) => response.json())
-    .then((restaurants) =>
-      dispatch(restaurantSlice.actions.finishLoading(restaurants))
-    )
-    .catch(() => dispatch(restaurantSlice.actions.failLoading()));
-};
+);
