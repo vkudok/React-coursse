@@ -7,8 +7,8 @@ const initialState = {
   status: REQUEST_STATUSES.idle,
 };
 
-export const restaurantSlice = createSlice({
-  name: "restaurant",
+export const dishSlice = createSlice({
+  name: "dish",
   initialState,
   reducers: {
     startLoading: (state) => {
@@ -18,13 +18,17 @@ export const restaurantSlice = createSlice({
       state.status = REQUEST_STATUSES.failed;
     },
     finishLoading: (state, { payload }) => {
-      state.entities = payload.reduce((acc, restaurant) => {
-        acc[restaurant.id] = restaurant;
+      state.entities = payload.reduce((acc, dish) => {
+        acc[dish.id] = dish;
 
         return acc;
-      }, {});
-      state.ids = payload.map(({ id }) => id);
+      }, state.entities);
+      state.ids = Array.from(
+        new Set([...state.ids, ...payload.map(({ id }) => id)])
+      );
       state.status = REQUEST_STATUSES.success;
     },
   },
 });
+
+export const dishActions = dishSlice.actions;
