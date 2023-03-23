@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { Tabs } from "../../components/Tabs/Tabs";
@@ -6,6 +6,12 @@ import { selectRestaurantsFilteredByName } from "../../store/entities/restaurant
 
 export const RestaurantTabs = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // const selectRestaurantsFilteredByName = useCallback(
+  //   createSelectRestaurantsFilteredByName(),
+  //   []
+  // );
+
   const restaurants = useSelector((state) =>
     selectRestaurantsFilteredByName(state, {
       searchValue: searchParams.get("search") || "",
