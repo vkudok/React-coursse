@@ -6,6 +6,10 @@ const dishSelectors = dishEntityAdapter.getSelectors(selectDishModule);
 
 export const selectDishById = (state, { dishId }) =>
   dishSelectors.selectById(state, dishId);
+
+export const selectDishNameById = (state, { dishId }) =>
+  selectDishById(state, { dishId })?.name;
+
 export const selectDishIds = dishSelectors.selectIds;
 export const selectDishes = dishSelectors.selectAll;
 
