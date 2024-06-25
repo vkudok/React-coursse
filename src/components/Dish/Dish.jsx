@@ -7,13 +7,15 @@ import { Link } from "react-router-dom";
 import { selectDishById } from "../../store/entities/dish/selectors";
 import { selectDishCount } from "../../store/cart/selectors";
 import { cartSlice } from "../../store/cart";
-import { memo, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
 import { loadDishById } from "../../store/entities/dish/thunks/loadDishById";
 
 export const Dish = ({ dishId, route, className }) => {
   const dish = useSelector((state) => selectDishById(state, { dishId }));
-  const count = useSelector((state) => selectDishCount(state, { dishId }));
+  // const count = useSelector((state) => selectDishCount(state, { dishId }));
   const dispatch = useDispatch();
+
+  const [count, setCount] = useState(0)
 
 
   useEffect(() => {
@@ -26,16 +28,14 @@ export const Dish = ({ dishId, route, className }) => {
     return null;
   }
 
-  const decrement = () => dispatch(cartSlice.actions.decrementDish(dishId));
-  const increment = () => dispatch(cartSlice.actions.incrementDish(dishId));
+  // const decrement = () => dispatch(cartSlice.actions.decrementDish(dishId));
+  // const increment = () => dispatch(cartSlice.actions.incrementDish(dishId));
 
   const { name, ingredients } = dish;
 
   return (
     <div
-      className={classnames(styles.root, className, {
-        [styles.rootBig]: count > 4,
-      })}
+      className={classnames(styles.root, className)}
     >
       <div>
         {route ? (
@@ -48,9 +48,9 @@ export const Dish = ({ dishId, route, className }) => {
         <div>{ingredients?.join(", ")}</div>
       </div>
       <div className={styles.actions}>
-        <Button onClick={decrement}>-</Button>
+        <Button onClick={() => setCount(count-1)} disabled={count < 1}>-</Button>
         <span className={styles.count}>{count}</span>
-        <Button onClick={increment}>+</Button>
+        <Button onClick={()=> setCount(count+1)}>+</Button>
       </div>
     </div>
   );
