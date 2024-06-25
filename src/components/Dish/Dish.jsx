@@ -7,12 +7,20 @@ import { Link } from "react-router-dom";
 import { selectDishById } from "../../store/entities/dish/selectors";
 import { selectDishCount } from "../../store/cart/selectors";
 import { cartSlice } from "../../store/cart";
-import { memo } from "react";
+import { memo, useEffect } from "react";
+import { loadDishById } from "../../store/entities/dish/thunks/loadDishById";
 
 export const Dish = ({ dishId, route, className }) => {
   const dish = useSelector((state) => selectDishById(state, { dishId }));
   const count = useSelector((state) => selectDishCount(state, { dishId }));
   const dispatch = useDispatch();
+
+
+  useEffect(() => {
+      dispatch(loadDishById(dishId))
+  }, [])
+
+  
 
   if (!dish) {
     return null;

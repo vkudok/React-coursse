@@ -8,11 +8,10 @@ import { loadUserIfNotExist } from "../../store/entities/user/thunks/loadUsersIf
 import { Review } from "../Review/Review";
 import styles from "./styles.module.css";
 
-export const Reviews = () => {
-  const { restaurantId } = useParams();
+export const Reviews = ({restaurantId}) => {
   const dispatch = useDispatch();
   const reviews = useSelector((state) =>
-    selectRestaurantReviewsById(state, { restaurantId })
+    selectRestaurantReviewsById(state, {restaurantId})
   );
   const isLoading = useSelector(selectIsReviewLoading);
 

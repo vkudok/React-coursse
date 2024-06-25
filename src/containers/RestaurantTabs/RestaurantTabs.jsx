@@ -24,10 +24,10 @@ export const RestaurantTabs = () => {
   }));
   return (
     <div>
-      <input
+      {/* <input
         value={searchParams.get("search") || ""}
         onChange={(event) => setSearchParams({ search: event.target.value })}
-      />
+      /> */}
       <Tabs tabs={restaurantTabs} />
     </div>
   );

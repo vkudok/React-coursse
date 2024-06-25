@@ -10,6 +10,8 @@ import {
 
 import styles from "./styles.module.css";
 import { Outlet } from "react-router-dom";
+import { Restaurant } from "../../components/Restaurant/Restaurant";
+import { selectRestaurantsFilteredByName } from "../../store/entities/restaurant/selectors";
 
 export const RestaurantPage = () => {
   const dispatch = useDispatch();
@@ -20,6 +22,12 @@ export const RestaurantPage = () => {
     dispatch(loadRestaurantIfNotExist());
   }, []);
 
+  const restaurants = useSelector((state) =>
+    selectRestaurantsFilteredByName(state, {
+      searchValue: '',
+    })
+  );
+
   if (isLoading) {
     return <span>Loading...</span>;
   }
@@ -27,8 +35,10 @@ export const RestaurantPage = () => {
   return (
     <div className={styles.root}>
       <div>
-        <RestaurantTabs />
-        <Outlet />
+        <h1>Список ресторанов: </h1>
+        {restaurants.map((r) => {
+          return <Restaurant key={r.id} restaurant={r}/>
+        })}
       </div>
     </div>
   );

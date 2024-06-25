@@ -18,13 +18,10 @@ import { Dish } from "../Dish/Dish";
 
 import styles from "./styles.module.css";
 
-export const Menu = () => {
+export const Menu = ({menu}) => {
   const ref = useRef();
   const { restaurantId } = useParams();
   const dispatch = useDispatch();
-  const menu = useSelector((state) =>
-    selectRestaurantMenuById(state, { restaurantId })
-  );
   const isLoading = useSelector(selectIsDishLoading);
 
   const navigate = useNavigate();
@@ -41,14 +38,12 @@ export const Menu = () => {
 
   return (
     <div ref={onRender}>
-      <h3>Menu</h3>
-      <Button onClick={() => clearInterval(ref.current)}>Cancel</Button>
+      <h3>Меню: </h3>
       <div className={styles.dishes}>
         {menu.map((dishId) => (
           <Dish key={dishId} dishId={dishId} className={styles.dish} />
         ))}
       </div>
-      <Button onClick={() => navigate("/cart")}>Перейти к заказу</Button>
     </div>
   );
 };

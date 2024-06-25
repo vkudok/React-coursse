@@ -1,42 +1,15 @@
-import classNames from "classnames";
 import React from "react";
-import { useSelector } from "react-redux";
-import { NavLink, Outlet, useParams } from "react-router-dom";
-import { selectRestaurantById } from "../../store/entities/restaurant/selectors";
-
 import styles from "./styles.module.css";
+import { Menu } from "../Menu/Menu";
+import { Reviews } from "../Reviews/Reviews";
 
-const tabs = ["menu", "reviews"];
-
-export const Restaurant = () => {
-  const { restaurantId } = useParams();
-  const restaurant = useSelector((state) =>
-    selectRestaurantById(state, { restaurantId })
-  );
-
-  if (!restaurant) {
-    return null;
-  }
-
-  const { name } = restaurant;
-
+export const Restaurant = (restaurant) => {
   return (
-    <div>
-      <h2>{name}</h2>
-      <div>
-        {tabs.map((tab) => (
-          <NavLink
-            key={tab}
-            to={tab}
-            className={({ isActive }) =>
-              classNames(styles.tab, { [styles.active]: isActive })
-            }
-          >
-            {tab}
-          </NavLink>
-        ))}
-      </div>
-      <Outlet />
+    <div className={styles.root}>
+      <h2>Ресторан {restaurant.restaurant.name}</h2>
+      <Menu menu={restaurant.restaurant.menu} />
+      <Reviews restaurantId={restaurant.restaurant.id} />
+      <hr />
     </div>
   );
 };
